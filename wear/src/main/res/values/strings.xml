@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Senior Monitoring</string>
+
+    <string name="linkUser">Vincular usuario</string>
+    <string name="ok">OK</string>
+
+    <string name="wifiOffText">Desconecta el Wifi\ndel teléfono.</string>
+    <string name="configStartText">Pulsa OK para configurar\n(5 minutos)</string>
+    <string name="configStartBtnText">OK</string>
+    <string name="configStartStepBtnText">OK</string>
+
+    <string name="progressBarMsg">Espera sin moverte</string>
+    <string name="title_activity_feedback">SliwAndroid</string>
+    <string name="showLocText">¿Dónde\nestoy?</string>
+
+    <string-array name="numbers">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
+</resources>

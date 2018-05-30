@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="es.uji.al259348.sliwandroid.wear">
+
+    <uses-feature android:name="android.hardware.type.watch" />
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.DeviceDefault">
+
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.ConfigActivity"
+            android:label="@string/app_name" />
+
+        <activity
+            android:name=".activities.FeedbackActivity"
+            android:label="@string/title_activity_feedback"
+            android:exported="true"
+            android:allowEmbedded="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.DeviceDefault.Light"/>
+
+        <receiver
+            android:name=".receivers.FeedbackRequestReceiver"
+            android:enabled="true">
+
+            <intent-filter>
+                <action android:name="es.uji.al259348.sliwandroid.FEEDBACK_REQUEST_ACTION" />
+                <action android:name="es.uji.al259348.sliwandroid.FEEDBACK_REQUEST_CANCEL_ACTION" />
+                <action android:name="es.uji.al259348.sliwandroid.FEEDBACK_REQUEST_SELECT_ACTION" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

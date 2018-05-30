@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--<string name="mqtt_broker_host">tcp://estudioactividad.uji.es:61613</string>-->
+    <string name="mqtt_broker_host">tcp://indoorlocplatform.uji.es:61613</string>
+    <string name="mqtt_broker_user">admin</string>
+    <string name="mqtt_broker_pass">password</string>
+    <string name="mqtt_client_id">SliwAndroid</string>
+
+    <integer name="intervalTakeSampleAlarmInSeconds">60</integer> <!-- It shouldn't be lesser than 60 -->
+
+</resources>
