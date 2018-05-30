@@ -93,13 +93,13 @@ public class MainFragment extends Fragment {
             }
         });
 
-        /*Button btnValidateSample = (Button) rootView.findViewById(R.id.btnValidateSample);
+        Button btnValidateSample = (Button) rootView.findViewById(R.id.btnValidateSample);
         btnValidateSample.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.validateSample();
             }
-        });*/
+        });
 
         return rootView;
     }

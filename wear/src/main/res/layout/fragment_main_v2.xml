@@ -7,14 +7,26 @@
     tools:context="es.uji.al259348.sliwandroid.wear.fragments.MainFragment">
 
     <Button
-
         android:id="@+id/btnTakeSample"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/rounded_button"
         android:padding="10dp"
         android:text="@string/showLocText"
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btnValidateSample"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/rounded_button"
+        android:padding="10dp"
+        android:text="Estoy\nen:"
         android:textColor="#ffffff"
         android:textSize="18sp" />
 </LinearLayout>
