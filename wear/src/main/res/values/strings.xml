@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Senior Monitoring</string>
+    <string name="app_name">Control Monitoring</string>
 
     <string name="linkUser">Vincular usuario</string>
     <string name="ok">OK</string>
