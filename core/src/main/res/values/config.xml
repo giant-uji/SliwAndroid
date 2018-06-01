@@ -2,7 +2,7 @@
 <resources>
 
     <!--<string name="mqtt_broker_host">tcp://estudioactividad.uji.es:61613</string>-->
-    <string name="mqtt_broker_host">tcp://indoorlocplatform.uji.es:61613</string>
+    <string name="mqtt_broker_host">tcp://indoorlocplatform.uji.es:62613</string>
     <string name="mqtt_broker_user">admin</string>
     <string name="mqtt_broker_pass">password</string>
     <string name="mqtt_client_id">SliwAndroid</string>
