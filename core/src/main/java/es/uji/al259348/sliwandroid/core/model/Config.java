@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Config {
 
-    private static final int NUM_SAMPLES_PER_STEP = 50;
+    private static final int NUM_SAMPLES_PER_STEP = 100;
     private static final int PROGRESS_PER_SAMPLE = 100 / NUM_SAMPLES_PER_STEP;
 
     public static class ConfigStep {
