@@ -23,7 +23,7 @@ public class Installation {
             id = sharedPreferences.getString(SHARED_PREFERENCES_KEY_INSTALLATION_ID, "");
 
             if (id.isEmpty()) {
-                //id = "8b37dbe9-9e71-47ba-ae76-94291cb6ca98";
+                //id = "6fc00d73-8131-4dc3-85b9-2742e6567ede";
                 id = UUID.randomUUID().toString();
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
