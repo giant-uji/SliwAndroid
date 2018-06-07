@@ -103,7 +103,7 @@ public class MainActivity extends Activity implements
 
                 btnInfo = stub.findViewById(R.id.btnInfo);
                 //if (btnInfo != null)
-                btnInfo.setOnClickListener(v -> btnInfoClickListener(v));
+                    btnInfo.setOnClickListener(v -> btnInfoClickListener(v));
 
                 fragmentContent = stub.findViewById(R.id.fragmentContent);
                 controller.decideStep();
