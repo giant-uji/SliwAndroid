@@ -34,6 +34,7 @@ import es.uji.al259348.sliwandroid.core.services.UserService;
 import es.uji.al259348.sliwandroid.core.services.UserServiceImpl;
 import es.uji.al259348.sliwandroid.core.view.MainView;
 import es.uji.al259348.sliwandroid.wear.R;
+import es.uji.al259348.sliwandroid.wear.exceptions.MyExceptionHandler;
 import es.uji.al259348.sliwandroid.wear.fragments.ConfirmFragment;
 import es.uji.al259348.sliwandroid.wear.fragments.InfoFragment;
 import es.uji.al259348.sliwandroid.wear.fragments.LoadingFragment;
@@ -50,8 +51,12 @@ public class MainActivity extends Activity implements
     private static final String STEP_LINK = "stepLink";
     private static final String STEP_CONFIG = "StepConfig";
     private static final String STEP_OK = "stepOk";
-    private static final String SSID = "seniormonitoring";
-    private static final String PASSWORD = "t3st2018";
+
+    //private static final String SSID = "seniormonitoring";
+    //private static final String PASSWORD = "t3st2018";
+    private static final String SSID = "iPhone de Arturo";
+    private static final String PASSWORD = "3ict5yfrzqci4";
+
     private static final int REQUEST_CODE_CONFIG = 1;
     private static final int REQUEST_CODE_FEEDBACK = 2;
 
@@ -102,13 +107,20 @@ public class MainActivity extends Activity implements
             public void onLayoutInflated(WatchViewStub stub) {
 
                 btnInfo = stub.findViewById(R.id.btnInfo);
-                //if (btnInfo != null)
-                btnInfo.setOnClickListener(v -> btnInfoClickListener(v));
+
+                // if (btnInfo != null)
+                    btnInfo.setOnClickListener(v -> btnInfoClickListener(v));
 
                 fragmentContent = stub.findViewById(R.id.fragmentContent);
                 controller.decideStep();
             }
         });
+
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
+
+        if (getIntent().getBooleanExtra("crash", false)) {
+            Toast.makeText(this, "Reinicio de la aplicación debido a un fallo de la misma.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
