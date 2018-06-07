@@ -3,14 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="es.uji.al259348.sliwandroidwear.MainActivity"
-    tools:deviceIds="wear_round">
+    android:orientation="vertical"
+    tools:context="es.uji.al259348.sliwandroid.wear.activities.MainActivity"
+    tools:deviceIds="wear_square"
+    android:gravity="center">
 
-    <TextView
-        android:id="@+id/text"
+    <FrameLayout
+        android:id="@+id/fragmentContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="round" />
+        android:id="@+id/btnInfo"
+        android:src="@android:drawable/ic_menu_info_details"
+        android:layout_alignParentRight="true"
+        android:padding="2dp" />
+
 </RelativeLayout>
