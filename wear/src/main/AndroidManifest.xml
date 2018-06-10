@@ -53,6 +53,10 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".receivers.AlarmReceiver"
+            android:enabled="true" >
+        </receiver>
     </application>
 
 </manifest>
