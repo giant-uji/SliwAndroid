@@ -28,7 +28,7 @@ public class MyExceptionHandler implements Thread.UncaughtExceptionHandler {
         PendingIntent pendingIntent = PendingIntent.getActivity(SliwAndroid.getInstance().getBaseContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
         AlarmManager mgr = (AlarmManager) SliwAndroid.getInstance().getBaseContext().getSystemService(Context.ALARM_SERVICE);
-        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, pendingIntent);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 5000, pendingIntent);
 
         activity.finish();
         System.exit(2);

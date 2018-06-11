@@ -8,5 +8,5 @@ public interface ConfigView extends View {
     void onStepProgressUpdated(int progress);
     void onAllStepsFinished();
     void onConfigFinished();
-
+    void onConfirm();
 }

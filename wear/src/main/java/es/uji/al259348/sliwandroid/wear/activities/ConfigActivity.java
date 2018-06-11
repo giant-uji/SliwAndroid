@@ -1,17 +1,21 @@
 package es.uji.al259348.sliwandroid.wear.activities;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
+
 
 import es.uji.al259348.sliwandroid.core.controller.ConfigController;
 import es.uji.al259348.sliwandroid.core.controller.ConfigControllerImpl;
@@ -20,6 +24,7 @@ import es.uji.al259348.sliwandroid.wear.R;
 import es.uji.al259348.sliwandroid.wear.fragments.LoadingFragment;
 import es.uji.al259348.sliwandroid.wear.fragments.ProgressBarFragment;
 import es.uji.al259348.sliwandroid.wear.fragments.ConfirmFragment;
+import es.uji.al259348.sliwandroid.wear.receivers.AlarmReceiver;
 
 public class ConfigActivity extends Activity implements
         ConfigView,
@@ -36,6 +41,9 @@ public class ConfigActivity extends Activity implements
     private ProgressBarFragment progressBarFragment;
 
     private String step;
+
+    private AlarmManager saveConfigAlarm;
+    private PendingIntent alarmIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,9 +111,13 @@ public class ConfigActivity extends Activity implements
     @Override
     public void onAllStepsFinished() {
         step = STEP_CONFIRM_SAVE_CONFIG;
-        String msg = "Configuración terminada.";
-        String btnText = "Guardar";
-        setFragment(ConfirmFragment.newInstance(msg, btnText));
+
+        saveConfigAlarm = (AlarmManager)getContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+        saveConfigAlarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000, alarmIntent);
+        Log.e("ALARMTAG", "ALARM SET");
     }
 
     @Override
@@ -113,6 +125,8 @@ public class ConfigActivity extends Activity implements
         Intent i = getIntent();
         setResult(RESULT_OK, i);
         unlockScreen();
+        saveConfigAlarm.cancel(alarmIntent);
+        Log.e("ALARMTAG", "ALARM OFF");
         finish();
     }
 
