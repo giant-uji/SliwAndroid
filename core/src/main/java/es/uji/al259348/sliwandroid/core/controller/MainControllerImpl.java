@@ -1,7 +1,11 @@
 package es.uji.al259348.sliwandroid.core.controller;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,8 +45,9 @@ public class MainControllerImpl implements MainController {
     private UserService userService;
     private WifiService wifiService;
     private AlarmService alarmService;
-    private AlarmSaveConfigService alarmSaveConfigService;
     private SampleService sampleService;
+
+
 
     public MainControllerImpl(MainView mainView) {
         this.mainView = mainView;
@@ -53,7 +58,6 @@ public class MainControllerImpl implements MainController {
         this.userService = new UserServiceImpl(context, messagingService);
         this.wifiService = new WifiServiceImpl(context);
         this.alarmService = new AlarmServiceImpl(context);
-        this.alarmSaveConfigService = new AlarmSaveConfigServiceImpl(context);
         this.sampleService = new SampleServiceImpl(context);
         //
     }
@@ -73,15 +77,10 @@ public class MainControllerImpl implements MainController {
             mainView.hasToRegisterDevice();
         } else if (user == null) {
             mainView.hasToLink();
-        } else if (!user.isConfigured() && !user.isSavedConfig()) {
+        } else if (!user.isConfigured()) {
             mainView.hasToConfigure();
-        } else if (user.isConfigured() && user.isSavedConfig()){
+        } else {
             alarmService.setTakeSampleAlarm();
-            alarmSaveConfigService.cancelSaveConfigAlarm();
-            mainView.isOk();
-        } else if (!user.isConfigured() && user.isSavedConfig()) {
-            if (alarmSaveConfigService != null)
-                alarmSaveConfigService.showToast();
             mainView.isOk();
         }
     }
@@ -112,8 +111,6 @@ public class MainControllerImpl implements MainController {
     public void unlink() {
         userService.setCurrentLinkedUser(null);
         alarmService.cancelTakeSampleAlarm();
-        if (alarmSaveConfigService != null)
-            alarmSaveConfigService.cancelSaveConfigAlarm();
     }
 
     @Override

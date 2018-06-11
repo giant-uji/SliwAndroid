@@ -22,7 +22,7 @@ public class AlarmSaveConfigServiceImpl extends AbstractService implements Alarm
         this.alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intentSaveConfigReceiver = new Intent(context, SaveConfigReceiver.class);
-        pendingIntentShowToast = PendingIntent.getBroadcast(context, 0, intentSaveConfigReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntentShowToast = PendingIntent.getBroadcast(context, 0, intentSaveConfigReceiver, 0);
     }
 
     @Override
@@ -33,11 +33,11 @@ public class AlarmSaveConfigServiceImpl extends AbstractService implements Alarm
     @Override
     public void showToast() {
         Log.d("AlarmSaveConfigService", "Setting SaveConfigAlarm");
-        long triggerAtMillis = SystemClock.elapsedRealtime();
-        long intervalMillis = 100;
+        long triggerAtMillis = System.currentTimeMillis();
+        long intervalMillis = 5000;
 
         alarmManager.setInexactRepeating(
-                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                AlarmManager.RTC,
                 triggerAtMillis,
                 intervalMillis,
                 pendingIntentShowToast);

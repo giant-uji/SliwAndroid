@@ -13,8 +13,6 @@ public class SaveConfigReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "Alarm!", Toast.LENGTH_LONG);
-        //((ConfigController)context).saveConfig();
-        Log.e("AlarmSaveConfigService", "ALARM RINGING");
+        context.sendBroadcast(new Intent("SAVE_CONFIG"));
     }
 }

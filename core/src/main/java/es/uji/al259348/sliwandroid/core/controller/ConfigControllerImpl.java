@@ -1,6 +1,11 @@
 package es.uji.al259348.sliwandroid.core.controller;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ListIterator;
 import java.util.UUID;
@@ -35,21 +40,36 @@ public class ConfigControllerImpl implements ConfigController {
     private Config.ConfigStep currentStep;
 
     private AlarmSaveConfigService alarm;
+    private Context context;
+    private BroadcastReceiver broadcastReceiver;
 
     public ConfigControllerImpl(ConfigView configView) {
         this.configView = configView;
 
-        Context context = configView.getContext();
+        context = configView.getContext();
         this.messagingService = new MessagingServiceImpl(context);
         this.userService = new UserServiceImpl(context, messagingService);
         this.wifiService = new WifiServiceImpl(context);
 
         this.user = userService.getCurrentLinkedUser();
         this.config = new Config(user);
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context1, Intent intent) {
+                Toast.makeText(context, "Hola", Toast.LENGTH_LONG).show();
+                Log.e("ALARMTAG", "ring");
+                saveConfig();
+            }
+        };
+
+        context.registerReceiver(broadcastReceiver, new IntentFilter("SAVE_CONFIG"));
+        alarm = null;
     }
 
     @Override
     public void onDestroy() {
+        context.unregisterReceiver(broadcastReceiver);
         messagingService.onDestroy();
     }
 
@@ -119,6 +139,8 @@ public class ConfigControllerImpl implements ConfigController {
 
         if (alarm != null) {
             alarm.cancelSaveConfigAlarm();
+            context.unregisterReceiver(broadcastReceiver);
+            Log.e("ALARMTAG", "Alarm canceled");
         }
 
         configView.onConfigFinished();
@@ -127,11 +149,11 @@ public class ConfigControllerImpl implements ConfigController {
     private void handleError(Throwable throwable) {
         user.setSavedConfig(true);
         user.setConfigured(false);
-        userService.setCurrentLinkedUser(user);
 
-        alarm = new AlarmSaveConfigServiceImpl(configView.getContext());
-        alarm.showToast();
-        configView.onConfigFinished();
+        if (alarm == null) {
+            alarm = new AlarmSaveConfigServiceImpl(configView.getContext());
+            Log.e("ALARMTAG", "Alarm set");
+        }
     }
 
 }
