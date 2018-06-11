@@ -13,7 +13,7 @@ public interface MainView extends View {
     void onUserLinked(User user);
 
     void hasToConfigure();
-
+    void hasToSaveConfig();
     void isOk();
 
     void onTakeSampleCompleted();

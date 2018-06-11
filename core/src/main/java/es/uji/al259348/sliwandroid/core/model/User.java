@@ -11,6 +11,7 @@ public class User {
     private String name;
     private List<Location> locations;
     private boolean configured;
+    private boolean savedConfig = false;
 
     public User() {
     }
@@ -41,6 +42,14 @@ public class User {
 
     public boolean isConfigured() {
         return configured;
+    }
+
+    public boolean isSavedConfig() {
+        return savedConfig;
+    }
+
+    public void setSavedConfig(boolean savedConfig) {
+        this.savedConfig = savedConfig;
     }
 
     public void setConfigured(boolean configured) {

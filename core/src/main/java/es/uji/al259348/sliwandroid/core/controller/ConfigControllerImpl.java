@@ -8,6 +8,8 @@ import java.util.UUID;
 import es.uji.al259348.sliwandroid.core.model.Config;
 import es.uji.al259348.sliwandroid.core.model.User;
 import es.uji.al259348.sliwandroid.core.model.Sample;
+import es.uji.al259348.sliwandroid.core.services.AlarmSaveConfigService;
+import es.uji.al259348.sliwandroid.core.services.AlarmSaveConfigServiceImpl;
 import es.uji.al259348.sliwandroid.core.services.MessagingService;
 import es.uji.al259348.sliwandroid.core.services.MessagingServiceImpl;
 import es.uji.al259348.sliwandroid.core.services.UserService;
@@ -31,6 +33,8 @@ public class ConfigControllerImpl implements ConfigController {
 
     private ListIterator<Config.ConfigStep> configStepsIter;
     private Config.ConfigStep currentStep;
+
+    private AlarmSaveConfigService alarm;
 
     public ConfigControllerImpl(ConfigView configView) {
         this.configView = configView;
@@ -110,12 +114,24 @@ public class ConfigControllerImpl implements ConfigController {
 
     private void onConfigFinished() {
         user.setConfigured(true);
+        user.setSavedConfig(true);
         userService.setCurrentLinkedUser(user);
+
+        if (alarm != null) {
+            alarm.cancelSaveConfigAlarm();
+        }
+
         configView.onConfigFinished();
     }
 
     private void handleError(Throwable throwable) {
-        configView.onError(throwable);
+        user.setSavedConfig(true);
+        user.setConfigured(false);
+        userService.setCurrentLinkedUser(user);
+
+        alarm = new AlarmSaveConfigServiceImpl(configView.getContext());
+        alarm.showToast();
+        configView.onConfigFinished();
     }
 
 }

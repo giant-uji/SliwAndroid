@@ -14,6 +14,8 @@ import java.util.UUID;
 import es.uji.al259348.sliwandroid.core.model.Device;
 import es.uji.al259348.sliwandroid.core.model.Sample;
 import es.uji.al259348.sliwandroid.core.model.User;
+import es.uji.al259348.sliwandroid.core.services.AlarmSaveConfigService;
+import es.uji.al259348.sliwandroid.core.services.AlarmSaveConfigServiceImpl;
 import es.uji.al259348.sliwandroid.core.services.AlarmService;
 import es.uji.al259348.sliwandroid.core.services.AlarmServiceImpl;
 import es.uji.al259348.sliwandroid.core.services.DeviceService;
@@ -39,6 +41,7 @@ public class MainControllerImpl implements MainController {
     private UserService userService;
     private WifiService wifiService;
     private AlarmService alarmService;
+    private AlarmSaveConfigService alarmSaveConfigService;
     private SampleService sampleService;
 
     public MainControllerImpl(MainView mainView) {
@@ -50,7 +53,9 @@ public class MainControllerImpl implements MainController {
         this.userService = new UserServiceImpl(context, messagingService);
         this.wifiService = new WifiServiceImpl(context);
         this.alarmService = new AlarmServiceImpl(context);
+        this.alarmSaveConfigService = new AlarmSaveConfigServiceImpl(context);
         this.sampleService = new SampleServiceImpl(context);
+        //
     }
 
     @Override
@@ -68,10 +73,15 @@ public class MainControllerImpl implements MainController {
             mainView.hasToRegisterDevice();
         } else if (user == null) {
             mainView.hasToLink();
-        } else if (!user.isConfigured()) {
+        } else if (!user.isConfigured() && !user.isSavedConfig()) {
             mainView.hasToConfigure();
-        } else {
+        } else if (user.isConfigured() && user.isSavedConfig()){
             alarmService.setTakeSampleAlarm();
+            alarmSaveConfigService.cancelSaveConfigAlarm();
+            mainView.isOk();
+        } else if (!user.isConfigured() && user.isSavedConfig()) {
+            if (alarmSaveConfigService != null)
+                alarmSaveConfigService.showToast();
             mainView.isOk();
         }
     }
@@ -102,6 +112,8 @@ public class MainControllerImpl implements MainController {
     public void unlink() {
         userService.setCurrentLinkedUser(null);
         alarmService.cancelTakeSampleAlarm();
+        if (alarmSaveConfigService != null)
+            alarmSaveConfigService.cancelSaveConfigAlarm();
     }
 
     @Override

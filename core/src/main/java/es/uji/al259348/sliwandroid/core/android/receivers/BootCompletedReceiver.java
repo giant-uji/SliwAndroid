@@ -26,7 +26,7 @@ public class BootCompletedReceiver extends BroadcastReceiver {
             User user = userService.getCurrentLinkedUser();
 
             if (user != null) {
-                if (user.isConfigured()) {
+                if (user.isConfigured() || user.isSavedConfig()) {
                     Log.d("BootCompletedReceiver", "Setting alarm for TakeSampleReceiver...");
                     AlarmService alarmService = new AlarmServiceImpl(context.getApplicationContext());
                     alarmService.setTakeSampleAlarm();

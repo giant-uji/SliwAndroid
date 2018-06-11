@@ -8,5 +8,4 @@ public interface MainController extends Controller {
     void unlink();
     void takeSample();
     void takeValidSample(String location);
-
 }

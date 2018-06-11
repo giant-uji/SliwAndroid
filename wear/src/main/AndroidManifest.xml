@@ -42,21 +42,6 @@
             android:taskAffinity=""
             android:theme="@android:style/Theme.DeviceDefault.Light"/>
 
-        <receiver
-            android:name=".receivers.FeedbackRequestReceiver"
-            android:enabled="true">
-
-            <intent-filter>
-                <action android:name="es.uji.al259348.sliwandroid.FEEDBACK_REQUEST_ACTION" />
-                <action android:name="es.uji.al259348.sliwandroid.FEEDBACK_REQUEST_CANCEL_ACTION" />
-                <action android:name="es.uji.al259348.sliwandroid.FEEDBACK_REQUEST_SELECT_ACTION" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".receivers.AlarmReceiver"
-            android:enabled="true" >
-        </receiver>
     </application>
 
 </manifest>

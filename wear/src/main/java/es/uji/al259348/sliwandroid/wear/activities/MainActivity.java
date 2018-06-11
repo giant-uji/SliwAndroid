@@ -51,6 +51,7 @@ public class MainActivity extends Activity implements
     private static final String STEP_LINK = "stepLink";
     private static final String STEP_CONFIG = "StepConfig";
     private static final String STEP_OK = "stepOk";
+    private static final String STEP_SAVE_CONFIG = "stepSaveConfig";
 
     //private static final String SSID = "seniormonitoring";
     //private static final String PASSWORD = "t3st2018";
@@ -116,11 +117,11 @@ public class MainActivity extends Activity implements
             }
         });
 
-        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
+        /*Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
 
         if (getIntent().getBooleanExtra("crash", false)) {
             Toast.makeText(this, "Reinicio de la aplicación debido a un fallo de la misma.", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     @Override
@@ -239,6 +240,13 @@ public class MainActivity extends Activity implements
     }
 
     @Override
+    public void hasToSaveConfig() {
+        step = STEP_SAVE_CONFIG;
+        //setFragment(ConfirmFragment.newInstance("Se va a gaurdar la configración.", "Ok"));
+        onConfirm();
+    }
+
+    @Override
     public void isOk() {
         step = STEP_OK;
         setFragment(MainFragment.newInstance());
@@ -260,6 +268,11 @@ public class MainActivity extends Activity implements
             case STEP_CONFIG:
                 Intent i = new Intent(MainActivity.this, ConfigActivity.class);
                 startActivityForResult(i, REQUEST_CODE_CONFIG);
+                break;
+
+            case STEP_SAVE_CONFIG:
+                setFragment(LoadingFragment.newInstance("Guardando..."));
+                controller.decideStep();
                 break;
         }
     }
