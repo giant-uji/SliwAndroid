@@ -117,11 +117,11 @@ public class MainActivity extends Activity implements
             }
         });
 
-        /*Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
 
         if (getIntent().getBooleanExtra("crash", false)) {
             Toast.makeText(this, "Reinicio de la aplicación debido a un fallo de la misma.", Toast.LENGTH_SHORT).show();
-        }*/
+        }
     }
 
     @Override
@@ -271,7 +271,8 @@ public class MainActivity extends Activity implements
                 break;
 
             case STEP_SAVE_CONFIG:
-                setFragment(LoadingFragment.newInstance("Guardando..."));
+                //setFragment(LoadingFragment.newInstance("Guardando..."));
+                //setFragment(MainFragment.newInstance());
                 controller.decideStep();
                 break;
         }

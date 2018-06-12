@@ -20,6 +20,7 @@ import es.uji.al259348.sliwandroid.core.controller.ConfigControllerImpl;
 import es.uji.al259348.sliwandroid.core.view.ConfigView;
 import es.uji.al259348.sliwandroid.wear.R;
 import es.uji.al259348.sliwandroid.wear.fragments.LoadingFragment;
+import es.uji.al259348.sliwandroid.wear.fragments.MainFragment;
 import es.uji.al259348.sliwandroid.wear.fragments.ProgressBarFragment;
 import es.uji.al259348.sliwandroid.wear.fragments.ConfirmFragment;
 
@@ -114,6 +115,11 @@ public class ConfigActivity extends Activity implements
         setResult(RESULT_OK, i);
         unlockScreen();
         finish();
+    }
+
+    @Override
+    public void onConfigFailed() {
+
     }
 
     @Override

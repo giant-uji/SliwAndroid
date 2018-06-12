@@ -23,7 +23,7 @@ public class Installation {
             id = sharedPreferences.getString(SHARED_PREFERENCES_KEY_INSTALLATION_ID, "");
 
             if (id.isEmpty()) {
-                id = "e41eef87-4e92-40b0-a01c-db32413184f4";
+                id = "e41eef87-4e92-40b0-a01c-db32413184f4"; // Dispositivo "test" para CONTROL MONITORING
                 //id = UUID.randomUUID().toString();
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();

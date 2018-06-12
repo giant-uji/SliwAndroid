@@ -10,7 +10,6 @@ import es.uji.al259348.sliwandroid.core.controller.ConfigController;
 
 public class SaveConfigReceiver extends BroadcastReceiver {
 
-
     @Override
     public void onReceive(Context context, Intent intent) {
         context.sendBroadcast(new Intent("SAVE_CONFIG"));

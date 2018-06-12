@@ -152,7 +152,7 @@ public class MessagingServiceImpl extends AbstractService implements MessagingSe
                     @Override
                     public void onFailure(IMqttToken iMqttToken, Throwable throwable) {
                         Log.d("MQTT", "Unsubscription error! | " + Thread.currentThread().getName());
-                        subscriber.onError(throwable);
+                        //subscriber.onError(throwable);
                     }
                 });
             } catch (MqttException e) {

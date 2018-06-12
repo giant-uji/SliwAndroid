@@ -31,7 +31,7 @@ public class AlarmSaveConfigServiceImpl extends AbstractService implements Alarm
     }
 
     @Override
-    public void showToast() {
+    public void saveConfig() {
         Log.d("AlarmSaveConfigService", "Setting SaveConfigAlarm");
         long triggerAtMillis = System.currentTimeMillis();
         long intervalMillis = 5000;

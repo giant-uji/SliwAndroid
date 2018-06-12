@@ -77,7 +77,7 @@ public class MainControllerImpl implements MainController {
             mainView.hasToRegisterDevice();
         } else if (user == null) {
             mainView.hasToLink();
-        } else if (!user.isConfigured()) {
+        } else if (!user.isConfigured() && !user.isSavedConfig()) {
             mainView.hasToConfigure();
         } else {
             alarmService.setTakeSampleAlarm();

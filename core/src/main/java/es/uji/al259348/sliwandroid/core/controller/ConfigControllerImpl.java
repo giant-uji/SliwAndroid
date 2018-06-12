@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ListIterator;
 import java.util.UUID;
@@ -57,19 +56,22 @@ public class ConfigControllerImpl implements ConfigController {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context1, Intent intent) {
-                Toast.makeText(context, "Hola", Toast.LENGTH_LONG).show();
                 Log.e("ALARMTAG", "ring");
                 saveConfig();
             }
         };
 
-        context.registerReceiver(broadcastReceiver, new IntentFilter("SAVE_CONFIG"));
-        alarm = null;
+        try {
+            context.registerReceiver(broadcastReceiver, new IntentFilter("SAVE_CONFIG"));
+        } catch (IllegalArgumentException e) {
+            Log.e("BroadCastReceiver", "Already registered");
+        }
+            alarm = null;
     }
 
     @Override
     public void onDestroy() {
-        context.unregisterReceiver(broadcastReceiver);
+        //context.unregisterReceiver(broadcastReceiver);
         messagingService.onDestroy();
     }
 
@@ -142,18 +144,20 @@ public class ConfigControllerImpl implements ConfigController {
             context.unregisterReceiver(broadcastReceiver);
             Log.e("ALARMTAG", "Alarm canceled");
         }
-
+        Log.e("ConfigControllerImpl", "Configuration saved");
         configView.onConfigFinished();
     }
 
     private void handleError(Throwable throwable) {
         user.setSavedConfig(true);
         user.setConfigured(false);
+        userService.setCurrentLinkedUser(user);
 
         if (alarm == null) {
             alarm = new AlarmSaveConfigServiceImpl(configView.getContext());
+            alarm.saveConfig();
             Log.e("ALARMTAG", "Alarm set");
         }
+        Log.e("ConfigControllerImpl", "Couldn't save the configuration");
     }
-
 }
