@@ -55,9 +55,13 @@ public class ConfigActivity extends Activity implements
                 fragmentContent = stub.findViewById(R.id.fragmentContent);
 
                 step = STEP_CONFIRM_START_CONFIG;
+
+                /*
                 String msg = getString(R.string.configStartText);
                 String btnText = getString(R.string.configStartBtnText);
                 setFragment(ConfirmFragment.newInstance(msg, btnText));
+                */
+                onConfirm();
             }
         });
 
