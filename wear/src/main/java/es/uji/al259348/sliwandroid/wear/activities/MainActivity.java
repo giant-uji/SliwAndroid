@@ -52,6 +52,8 @@ public class MainActivity extends Activity implements
     private static final String STEP_OK = "stepOk";
     private static final String SSID = "seniormonitoring";
     private static final String PASSWORD = "t3st2018";
+    //private static final String SSID = "iPhone de Arturo";
+    //private static final String PASSWORD = "3ict5yfrzqci4";
     private static final int REQUEST_CODE_CONFIG = 1;
     private static final int REQUEST_CODE_FEEDBACK = 2;
 
@@ -102,8 +104,7 @@ public class MainActivity extends Activity implements
             public void onLayoutInflated(WatchViewStub stub) {
 
                 btnInfo = stub.findViewById(R.id.btnInfo);
-                //if (btnInfo != null)
-                    btnInfo.setOnClickListener(v -> btnInfoClickListener(v));
+                btnInfo.setOnClickListener(v -> btnInfoClickListener(v));
 
                 fragmentContent = stub.findViewById(R.id.fragmentContent);
                 controller.decideStep();
