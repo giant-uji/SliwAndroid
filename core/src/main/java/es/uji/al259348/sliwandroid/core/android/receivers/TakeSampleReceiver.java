@@ -5,9 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
+import es.uji.al259348.sliwandroid.core.model.Sample;
 import es.uji.al259348.sliwandroid.core.services.DeviceService;
 import es.uji.al259348.sliwandroid.core.services.DeviceServiceImpl;
 import es.uji.al259348.sliwandroid.core.services.SampleService;
@@ -17,6 +20,10 @@ import es.uji.al259348.sliwandroid.core.services.UserServiceImpl;
 import rx.schedulers.Schedulers;
 
 public class TakeSampleReceiver extends BroadcastReceiver {
+
+    int counter = 0;
+    List<Sample> sampleList = new ArrayList<>();
+    public static final int NUM_SAMPLES = 10;
 
     public TakeSampleReceiver() {
 
@@ -30,37 +37,37 @@ public class TakeSampleReceiver extends BroadcastReceiver {
         DeviceService deviceService = new DeviceServiceImpl(context.getApplicationContext());
         UserService userService = new UserServiceImpl(context.getApplicationContext());
 
-        sampleService.take()
-                .doOnError(Throwable::printStackTrace)
-                .doOnNext(sample -> {
+        for (int i = 0; i < NUM_SAMPLES; i++) {
+            sampleService.take()
+                    .doOnError(Throwable::printStackTrace)
+                    .doOnNext(sample -> {
 
-                    String sampleId = UUID.randomUUID().toString();
-                    String deviceId = deviceService.getId();
-                    String userId = userService.getCurrentLinkedUserId();
+                        String sampleId = UUID.randomUUID().toString();
+                        String deviceId = deviceService.getId();
+                        String userId = userService.getCurrentLinkedUserId();
 
-                    sample.setId(sampleId);
-                    sample.setUserId(userId);
-                    sample.setDeviceId(deviceId);
+                        sample.setId(sampleId);
+                        sample.setUserId(userId);
+                        sample.setDeviceId(deviceId);
 
-                    Log.d("TakeSampleReceiver", "Sample: " + sample);
+                        Log.d("TakeSampleReceiver", "Sample: " + sample);
 
-                    sampleService.publish(sample)
-                            .subscribeOn(Schedulers.newThread())
-                            .observeOn(Schedulers.newThread())
-                            .subscribe(
-                                    response -> {
-                                        Log.d("TakeSampleReceiver", "The sample has been published (next)");
-                                    },
-                                    throwable -> {
-                                        Log.d("TakeSampleReceiver", "The sample couldn't be published.");
-                                        Log.d("TakeSampleReceiver", "Storing the sample locally...");
-                                        sampleService.save(sample);
-                                    },
-                                    () -> Log.d("TakeSampleReceiver", "The sample has been published (completed)")
-                            );
-
-                })
-                .subscribe();
+                        sampleService.publish(sample)
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(Schedulers.newThread())
+                                .subscribe(
+                                        response -> {
+                                            Log.d("TakeSampleReceiver", "The sample has been published (next)");
+                                        },
+                                        throwable -> {
+                                            Log.d("TakeSampleReceiver", "The sample couldn't be published.");
+                                            Log.d("TakeSampleReceiver", "Storing the sample locally...");
+                                            sampleService.save(sample);
+                                        },
+                                        () -> Log.d("TakeSampleReceiver", "The sample has been published (completed)")
+                                );
+                    })
+                    .subscribe();
+        }
     }
-
 }

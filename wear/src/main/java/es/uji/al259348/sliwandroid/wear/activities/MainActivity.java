@@ -227,6 +227,11 @@ public class MainActivity extends Activity implements
     }
 
     @Override
+    public void hasToSaveConfig() {
+
+    }
+
+    @Override
     public void isOk() {
         step = STEP_OK;
         setFragment(MainFragment.newInstance());

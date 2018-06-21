@@ -18,20 +18,17 @@ public class Installation {
             throw new IllegalArgumentException();
 
         if (id == null || id.isEmpty()) {
-
             SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES_FILENAME, Context.MODE_PRIVATE);
             id = sharedPreferences.getString(SHARED_PREFERENCES_KEY_INSTALLATION_ID, "");
-
             if (id.isEmpty()) {
-                id = "e41eef87-4e92-40b0-a01c-db32413184f4"; // Dispositivo "test" para CONTROL MONITORING
-                //id = UUID.randomUUID().toString();
+                //id = "e41eef87-4e92-40b0-a01c-db32413184f4"; // Dispositivo "test" para CONTROL MONITORING
+                id = UUID.randomUUID().toString();
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(SHARED_PREFERENCES_KEY_INSTALLATION_ID, id);
                 editor.apply();
             }
         }
-
         return id;
     }
 

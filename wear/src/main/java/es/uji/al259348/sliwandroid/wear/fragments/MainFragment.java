@@ -29,27 +29,6 @@ public class MainFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    /*private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-
-            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
-                final int bluetoothState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
-                        BluetoothAdapter.ERROR);
-                switch (bluetoothState) {
-                    case BluetoothAdapter.STATE_OFF:
-                        mListener.takeSample();
-                        getActivity().unregisterReceiver(mReceiver);
-                        //enableBluetooth();
-                        break;
-                    case BluetoothAdapter.STATE_ON:
-                        break;
-                }
-            }
-        }
-    };*/
-
     public MainFragment() {
         // Required empty public constructor
     }
