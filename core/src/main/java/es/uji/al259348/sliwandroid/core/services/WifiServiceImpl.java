@@ -157,7 +157,7 @@ public class WifiServiceImpl extends AbstractService implements WifiService {
     @Override
     public Observable<Sample> takeSample() {
 
-
+        enableWifi(); // Anyadido 13:27
 
         return Observable.create(subscriber -> {
 

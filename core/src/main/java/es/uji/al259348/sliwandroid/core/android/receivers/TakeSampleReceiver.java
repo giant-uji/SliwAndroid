@@ -37,7 +37,7 @@ public class TakeSampleReceiver extends BroadcastReceiver {
         DeviceService deviceService = new DeviceServiceImpl(context.getApplicationContext());
         UserService userService = new UserServiceImpl(context.getApplicationContext());
 
-        for (int i = 0; i < NUM_SAMPLES; i++) {
+        //for (int i = 0; i < NUM_SAMPLES; i++) {
             sampleService.take()
                     .doOnError(Throwable::printStackTrace)
                     .doOnNext(sample -> {
@@ -68,6 +68,6 @@ public class TakeSampleReceiver extends BroadcastReceiver {
                                 );
                     })
                     .subscribe();
-        }
+        //}
     }
 }
