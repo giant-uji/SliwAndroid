@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +23,8 @@ import es.uji.al259348.sliwandroid.core.model.Sample;
 import rx.Observable;
 import rx.Subscriber;
 
+import static android.content.ContentValues.TAG;
+
 public class WifiServiceImpl extends AbstractService implements WifiService {
 
     private class WifiStateChangedReceiver extends BroadcastReceiver {
@@ -35,33 +38,11 @@ public class WifiServiceImpl extends AbstractService implements WifiService {
             if (wifiState == WifiManager.WIFI_STATE_ENABLED) {
                 onWifiEnabled();
             }
+
+
         }
+
     }
-
-    /*private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-            Log.d("DEBUG", "Entro en receiver");
-
-            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
-                final int bluetoothState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
-                        BluetoothAdapter.ERROR);
-                switch (bluetoothState) {
-                    case BluetoothAdapter.STATE_OFF:
-                        performScan();
-                        //enableBluetooth();
-                        break;
-                    case BluetoothAdapter.STATE_ON:
-                        break;
-                }
-            }
-            else if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
-                    BluetoothAdapter.ERROR) == BluetoothAdapter.STATE_OFF) {
-                performScan();
-            }
-        }
-    };*/
 
     private class WifiScanReceiver extends BroadcastReceiver {
 
@@ -157,7 +138,7 @@ public class WifiServiceImpl extends AbstractService implements WifiService {
     @Override
     public Observable<Sample> takeSample() {
 
-        enableWifi(); // Anyadido 13:27
+        //enableWifi(); // Anyadido 13:27
 
         return Observable.create(subscriber -> {
 
@@ -174,34 +155,9 @@ public class WifiServiceImpl extends AbstractService implements WifiService {
         });
     }
 
-    public void disableBT() {
-        IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
-        unregisterReceiver(wifiScanReceiver);
-        unregisterReceiver(wifiStateChangedReceiver);
-        //getContext().registerReceiver(mReceiver, filter);
-        //disableBluetooth();
-    }
-
-    public void disableBluetooth() {
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        if (mBluetoothAdapter.isEnabled()){
-            Log.d("DEBUG", "Bluetooth está actualmente activado");
-
-            mBluetoothAdapter.disable();
-            Log.d("DEBUG", "Intentando desactivar el Bluetooth");
-
-        }
-        else {
-            Log.d("DEBUG", "Bluetooth está actualmente desactivado.");
-            performScan();
-        }
-
-    }
-
     private void performScan() {
         Log.d("WifiService", "It has been requested to perform a Wifi scan.");
-
+        
         wifiScanReceiver = new WifiScanReceiver();
         getContext().registerReceiver(
                 wifiScanReceiver,
