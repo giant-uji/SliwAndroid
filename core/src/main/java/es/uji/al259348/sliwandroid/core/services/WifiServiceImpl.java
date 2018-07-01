@@ -38,8 +38,6 @@ public class WifiServiceImpl extends AbstractService implements WifiService {
             if (wifiState == WifiManager.WIFI_STATE_ENABLED) {
                 onWifiEnabled();
             }
-
-
         }
 
     }
@@ -69,7 +67,10 @@ public class WifiServiceImpl extends AbstractService implements WifiService {
     public WifiServiceImpl(Context context) {
         super(context);
         this.wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-
+        WifiManager.WifiLock scanOnly = wifiManager.createWifiLock(WifiManager.WIFI_MODE_SCAN_ONLY, "scanOnly");
+        scanOnly.acquire();
+        WifiManager.WifiLock fullMode = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL, "fullMode");
+        fullMode.acquire();
         this.wifiScanSubscribers = new LinkedList<>();
         this.wifiStateChangedSubscribers = new LinkedList<>();
     }
@@ -157,13 +158,24 @@ public class WifiServiceImpl extends AbstractService implements WifiService {
 
     private void performScan() {
         Log.d("WifiService", "It has been requested to perform a Wifi scan.");
-        
+        if (wifiScanReceiver != null) {
+            Log.d(TAG, "unregistering wifiScanReceiver ");
+            unregisterReceiver(wifiScanReceiver);
+            wifiScanReceiver = null;
+        }
+
         wifiScanReceiver = new WifiScanReceiver();
+
         getContext().registerReceiver(
                 wifiScanReceiver,
                 new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
         );
         Log.d("WifiService", wifiScanReceiver.getClass().getSimpleName() + " registered.");
+
+
+        wifiManager.setWifiEnabled(true);
+        wifiManager.createWifiLock("sd");
+        Log.d("WifiService", "Wifi Conectado: " + wifiManager.isWifiEnabled());
 
         wifiManager.startScan();
         Log.d("WifiService", "Performing a Wifi scan...");
@@ -171,9 +183,11 @@ public class WifiServiceImpl extends AbstractService implements WifiService {
 
     private void onScanPerformed() {
         Log.d("WifiService", "The scan has been performed.");
-        unregisterReceiver(wifiScanReceiver);
-        //unregisterReceiver(mReceiver);
-        wifiScanReceiver = null;
+        if (wifiScanReceiver != null) {
+            Log.d(TAG, "unregistering wifiScanReceiver ");
+            unregisterReceiver(wifiScanReceiver);
+            wifiScanReceiver = null;
+        }
 
         Sample sample = new Sample(wifiManager.getScanResults());
 

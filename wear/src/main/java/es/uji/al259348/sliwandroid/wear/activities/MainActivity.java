@@ -65,6 +65,8 @@ public class MainActivity extends Activity implements
 
     private int wifiID;
 
+    private WifiManager wifiManager;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -110,6 +112,11 @@ public class MainActivity extends Activity implements
                 controller.decideStep();
             }
         });
+        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager.WifiLock scanOnly = wifiManager.createWifiLock(WifiManager.WIFI_MODE_SCAN_ONLY, "scanOnly");
+        scanOnly.acquire();
+        WifiManager.WifiLock fullMode = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL, "fullMode");
+        fullMode.acquire();
     }
 
     @Override
